@@ -4,10 +4,10 @@ import { defineConfig as definePostgresConfig } from "@prisma/orm-postgres/confi
 
 export default definePrismaConfig({
   orm: definePostgresConfig({
-    contract: "prisma8/contract.prisma",
+    contract: "prisma/contract.prisma",
     output: "generated/prisma8",
     db: {
-      connection: process.env["DATABASE_URL"],
+      connection: process.env["DIRECT_URL"],
     },
   }),
 });

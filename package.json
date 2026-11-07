@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma skills sync || exit 0"
+    "postinstall": "prisma skills sync || exit 0",
+    "db:emit": "prisma contract emit",
+    "db:plan": "prisma migration plan --name",
+    "db:migrate": "prisma db migrate --advance-ref db"
   },
   "dependencies": {
     "@auth/core": "^0.41.3",
@@ -16,7 +19,7 @@
     "@neondatabase/serverless": "^1.2.0",
     "@prisma/adapter-neon": "^7.10.1",
     "@prisma/client": "^7.10.1",
-    "@prisma/orm-postgres": "^8.0.0-rc.22",
+    "@prisma/orm-postgres": "^8.0.0-rc.23",
     "next": "16.4.5",
     "next-auth": "^5.0.0-beta.32",
     "react": "19.3.0",
