@@ -1,27 +1,22 @@
 {
   "name": "dm-add",
   "version": "0.1.0",
-  "types": "module",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "postinstall": "prisma skills sync || exit 0",
-    "db:emit": "prisma contract emit",
-    "db:plan": "prisma migration plan --name",
-    "db:migrate": "prisma db migrate --advance-ref db"
+    "lint": "eslint"
   },
   "dependencies": {
-    "@auth/core": "^0.41.3",
-    "@auth/prisma-adapter": "^2.11.3",
-    "@neondatabase/serverless": "^1.2.0",
+    "@better-auth/prisma-adapter": "^1.7.21",
     "@prisma/adapter-neon": "^7.10.1",
-    "@prisma/client": "^7.10.1",
-    "@prisma/orm-postgres": "^8.0.0-rc.23",
+    "@prisma/client": "7",
+    "axios": "^1.21.1",
+    "better-auth": "^1.7.21",
+    "dotenv": "^18.0.10",
     "next": "16.4.5",
-    "next-auth": "^5.0.0-beta.32",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
@@ -33,7 +28,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^10.14.0",
     "eslint-config-next": "16.4.5",
-    "prisma": "^8.0.0-rc.30",
+    "prisma": "7",
     "tailwindcss": "^4.3.4",
     "typescript": "^7.0.2"
   },
