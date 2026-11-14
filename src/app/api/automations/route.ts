@@ -1,5 +1,5 @@
-import { withAuth } from "@/lib/utils/with-auth";
-import { prisma } from "@/lib/prisma";
+import { withAuth } from "@/server/utils/with-auth";
+import { prisma } from "@/server/prisma";
 import type { Prisma } from "@/generated/prisma/client";
 import { NextResponse } from "next/server";
 
@@ -52,15 +52,13 @@ export const POST = withAuth(
       );
     }
 
-    const account = await prisma.account.findFirst({
-      where: { userId: session.user.id, providerId: "twitter" },
-    });
+  const account = await prisma.account.findFirst({
+    where: { userId: session.user.id, providerId: "twitter" },
+  });
 
-    if (!account?.accessToken) {
-      return NextResponse.json({ error: "Twitter account not connected" },
-        { status: 400 }
-      );
-    }
+  if (!account?.accessToken) {
+    return NextResponse.json({ error: "Twitter account not connected" }, { status: 400 });
+  }
 
     const automation = await prisma.automation.create({
       data: {
