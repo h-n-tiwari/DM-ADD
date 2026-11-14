@@ -2,6 +2,7 @@ import { withAuth } from "@/server/utils/with-auth";
 import { prisma } from "@/server/prisma";
 import type { Prisma } from "@/generated/prisma/client";
 import { NextResponse } from "next/server";
+import { getUserPlan, FREE_AUTOMATION_LIMIT } from "@/server/subscription";
 
 type CreateAutomationBody = Pick<
   Prisma.AutomationCreateInput,
@@ -21,25 +22,36 @@ export const GET = withAuth(
 
 export const POST = withAuth(
   async (req, session): Promise<Response> => {
-    const subscription = await prisma.subscription.findUnique({
-      where: { userId: session.user.id },
-    });
+    // const subscription = await prisma.subscription.findUnique({
+    //   where: { userId: session.user.id },
+    // });
 
-    const isPro =
-      subscription?.plan === "pro" &&
-      (!subscription.expiresAt || subscription.expiresAt > new Date());
+    // const isPro =
+    //   subscription?.plan === "pro" &&
+    //   (!subscription.expiresAt || subscription.expiresAt > new Date());
 
-    if (!isPro) {
-      const count = await prisma.automation.count({
-        where: { userId: session.user.id },
-      });
+    // if (!isPro) {
+    //   const count = await prisma.automation.count({
+    //     where: { userId: session.user.id },
+    //   });
 
-      if (count >= 5) {
-        return NextResponse.json(
-          { error: "Free tier limit: 5 automations max. Upgrade to pro." },
-          { status: 403 }
-        );
+    //   if (count >= 5) {
+    //     return NextResponse.json(
+    //       { error: "Free tier limit: 5 automations max. Upgrade to pro." },
+    //       { status: 403 }
+    //     );
+    //   }
+    // }
+
+    const plan = await getUserPlan(session.user.id);
+
+    if (plan === "free") {
+      const count = await prisma.automation.count({ where: { userId: session.user.id } });
+
+      if (count >= FREE_AUTOMATION_LIMIT) {
+        return NextResponse.json({ error: "..." }, { status: 403 });
       }
+      
     }
 
     const body: Partial<CreateAutomationBody> = await req.json();
